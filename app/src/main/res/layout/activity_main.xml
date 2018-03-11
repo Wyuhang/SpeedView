@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btn_real_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/real_time"/>
+
     <com.yh.speedview.view.Ammeter
+        android:id="@+id/ammeter_1"
         android:layout_width="200dp"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp"
+        android:layout_below="@id/btn_real_time"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:start_angle="135"
+        app:sweep_angle="270"/>
 
-
+    <com.yh.speedview.view.Ammeter
+        android:id="@+id/ammeter_2"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/ammeter_1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:max_safe_range="68"
+        app:min_safe_range="12"
+        app:start_angle="135"
+        app:sweep_angle="270"
+        app:unit="milliAmp"/>
 </RelativeLayout>

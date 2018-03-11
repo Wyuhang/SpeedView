@@ -41,32 +41,32 @@ public class ViewPortHandler {
     private RectF mRectF = new RectF ();
 
     /**
-     * 起始角(以度计)
+     * 起始角度(以度计)
      */
     protected float mStartAngle = 180;
     /**
-     * 表盘扫过角(以度计，顺时针方向)
+     * 扫过角度(以度计，顺时针方向)
      */
     protected float mSweepAngle = 180;
 
     /**
      * 最大安全量程
      */
-    protected int mMaxSafeRange = 0;
+    protected int mMaxSafeRange ;
     /**
      * 最小安全量程
      */
-    protected int mMinSafeRange = 0;
+    protected int mMinSafeRange ;
 
     /**
-     * 表盘量程的最大值
+     * 量程的最大值
      */
-    private int mMaxRange = 100;
+    private int mMaxRange ;
 
     /**
-     * 表盘量程的最小值
+     * 量程的最小值
      */
-    private int mMinRange = 0;
+    private int mMinRange ;
 
     public ViewPortHandler () {
 

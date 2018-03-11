@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.yh.speedview.R;
 import com.yh.speedview.listener.NumericalListener;
@@ -71,6 +72,7 @@ public class Ammeter extends SpeedView implements SafeRangeListener, NumericalLi
         mNumerical.onDraw (canvas);//绘制长刻度对应的读数
         mIndicator.onDraw (canvas);//绘制指针
         mRealTimeReading.onDraw (canvas);//绘制跟随指针实时变化的读数
+
     }
 
     /**

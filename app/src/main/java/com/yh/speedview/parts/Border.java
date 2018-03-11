@@ -4,6 +4,7 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.yh.speedview.render.BorderRender;
 import com.yh.speedview.utils.ViewPortHandler;
@@ -29,5 +30,6 @@ public class Border extends Parts {
     @Override
     public void onDraw (Canvas canvas) {
         canvas.drawArc (mPortHandler.getRectF (), mPortHandler.getStartAngle (), mPortHandler.getSweepAngle (), false, mPaint);
+     //   canvas.drawCircle (mPortHandler.getCenterX (),mPortHandler.getCenterY (),mPortHandler.getRadius (),mPaint);
     }
 }

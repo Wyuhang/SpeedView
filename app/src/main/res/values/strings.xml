@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SpeedView</string>
+    <string name="real_time">实时</string>
 </resources>

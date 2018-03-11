@@ -91,5 +91,6 @@ public class DiamondIndicator extends Indicator {
         //指针环绕的轴
         canvas.drawCircle (0, 0, handCircleRadius, mAxisPaint);
         canvas.restore ();
+
     }
 }

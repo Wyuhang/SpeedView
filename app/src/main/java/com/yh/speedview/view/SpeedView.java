@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.yh.speedview.R;
@@ -38,22 +39,20 @@ public abstract class SpeedView extends View {
 
     public SpeedView (Context context, AttributeSet attrs) {
         super (context, attrs);
-        Utils.init (getContext ());
+        Utils.init (context);
         TypedArray a = context.obtainStyledAttributes (attrs, R.styleable.SpeedView);
         mViewPortHandler.setStartAngle (a.getFloat (R.styleable.SpeedView_start_angle, 180f));
         mViewPortHandler.setSweepAngle (a.getFloat (R.styleable.SpeedView_sweep_angle, 180f));
-        //  mViewPortHandler.setRadius (a.getDimensionPixelSize (R.styleable.SpeedView_radius, (int) Utils.convertDpToPixel (100)));
+        mViewPortHandler.setMaxRange (a.getInteger (R.styleable.SpeedView_max_range, 100));
+        mViewPortHandler.setMinRange (a.getInteger (R.styleable.SpeedView_min_range, 0));
+        mViewPortHandler.setMaxSafeRange (a.getInteger (R.styleable.SpeedView_max_safe_range, 100));
+        mViewPortHandler.setMinSafeRange (a.getInteger (R.styleable.SpeedView_min_safe_range, 0));
         mPosition = a.getInt (R.styleable.SpeedView_position, -1);
         a.recycle ();
 //        if (mViewPortHandler.getRadius () <= 0)
 //            throw new IllegalArgumentException ("SpeedView radius must be greater than 0");
         initialize ();
     }
-
-    /**
-     * 设x最大数  设y最小数
-     * （X-Y/2）/(X/10)  得到的数值 四舍五入
-     */
 
     protected void initialize () {
         mIndicatorRender = new IndicatorRender (mViewPortHandler);
@@ -76,39 +75,35 @@ public abstract class SpeedView extends View {
         super.onMeasure (widthMeasureSpec, heightMeasureSpec);
         int widthSize = MeasureSpec.getSize (widthMeasureSpec);
         int widthMode = MeasureSpec.getMode (widthMeasureSpec);
+
         int heightSize = MeasureSpec.getSize (heightMeasureSpec);
         int heightMode = MeasureSpec.getMode (heightMeasureSpec);
-
         int tempWidth = 0;
         int tempHeight = 0;
         switch (widthMode) {
             case MeasureSpec.UNSPECIFIED:
             case MeasureSpec.AT_MOST:
-                // mViewPortHandler.setWidth (radius * 2 + getPaddingLeft () + getPaddingRight ());
                 tempWidth = (int) Utils.convertDpToPixel (80);
-                mViewPortHandler.setWidth (tempWidth * 2 + getPaddingLeft () + getPaddingRight ());
+                mViewPortHandler.setWidth (tempWidth * 2);//+ getPaddingLeft () + getPaddingRight ()
                 break;
             case MeasureSpec.EXACTLY:
-                // mViewPortHandler.setWidth (widthSize < radius * 2 ? radius * 2 + getPaddingLeft () + getPaddingRight () : widthSize + getPaddingLeft () + getPaddingRight ());
                 tempWidth = widthSize / 2;
-                mViewPortHandler.setWidth (widthSize + getPaddingLeft () + getPaddingRight ());
+                mViewPortHandler.setWidth (widthSize);//+ getPaddingLeft () + getPaddingRight ()
                 break;
         }
         switch (heightMode) {
             case MeasureSpec.UNSPECIFIED:
             case MeasureSpec.AT_MOST:
                 tempHeight = (int) Utils.convertDpToPixel (80);
-                mViewPortHandler.setHeight (tempHeight * 2 + getPaddingTop () + getPaddingBottom ());
-                // mViewPortHandler.setHeight (radius * 2 + getPaddingTop () + getPaddingBottom ());
+                mViewPortHandler.setHeight (tempHeight * 2);//
                 break;
             case MeasureSpec.EXACTLY:
-                // mViewPortHandler.setHeight (heightSize < radius * 2 ? radius * 2 + getPaddingTop () + getPaddingBottom () : heightSize + getPaddingTop () + getPaddingBottom ());
                 tempHeight = heightSize / 2;
-                mViewPortHandler.setHeight (heightSize + getPaddingTop () + getPaddingBottom ());
+                mViewPortHandler.setHeight (heightSize );
                 break;
         }
 
-        int radius = Math.min (tempWidth, tempHeight);
+        int radius = Math.min (tempWidth - 10, tempHeight - 10);
         mViewPortHandler.setRadius (radius);
         mIndicatorRender.setIndicatorRadius (radius - mIndicatorRender.getIndicatorReduc ());
 
@@ -116,7 +111,8 @@ public abstract class SpeedView extends View {
         mViewPortHandler.setCenterY (mViewPortHandler.getHeight () / 2);
 
         mViewPortHandler.setRectF (mViewPortHandler.getCenterX () - radius, mViewPortHandler.getCenterY () - radius, mViewPortHandler.getCenterX () + radius, mViewPortHandler.getCenterY () + radius);
-        setMeasuredDimension (mViewPortHandler.getWidth (), mViewPortHandler.getHeight ());
+        setMeasuredDimension (widthSize + getPaddingLeft () + getPaddingRight (), heightSize + getPaddingTop () + getPaddingBottom ());
+        //  setMeasuredDimension (widthSize , heightSize );
     }
 
     /**
@@ -173,13 +169,5 @@ public abstract class SpeedView extends View {
             index[i] = Utils.convert ((min + space * i));
         }
         return index;
-    }
-
-    public float getRealTimeIndex () {
-        return mViewPortHandler.getRealTimeIndex ();
-    }
-
-    public void setRealTimeIndex (float realTimeIndex) {
-        mViewPortHandler.setRealTimeIndex (realTimeIndex);
     }
 }

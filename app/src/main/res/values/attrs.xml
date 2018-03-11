@@ -5,8 +5,14 @@
         <attr name="start_angle" format="float"/>
         <!--总共绘制的角度-->
         <attr name="sweep_angle" format="float"/>
-        <!--表盘的半径-->
-        <!--<attr name="radius" format="dimension"/>-->
+        <!--量程最大值-->
+        <attr name="max_range" format="integer"/>
+        <!--量程最小值-->
+        <attr name="min_range" format="integer"/>
+        <!--安全量程最大值-->
+        <attr name="max_safe_range" format="integer"/>
+        <!--安全量程最小值-->
+        <attr name="min_safe_range" format="integer"/>
         <!--绘制刻度时候，缩进一段距离-->
         <attr name="indentation" format="float"/>
         <!--读数的位置，在表盘圆弧中心点上或者下面-->
