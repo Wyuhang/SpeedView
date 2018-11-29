@@ -42,7 +42,6 @@ public class Numerical extends Parts {
         //表盘等分为total份
         float singleAngle = mMarkerRender.getSingleAngle ();
 
-
         if (mNumericalListener == null)
             throw new IllegalArgumentException ("NumericalListener is null ");
         String[] numerical = mNumericalListener.create ();
@@ -50,27 +49,18 @@ public class Numerical extends Parts {
         for (int i = 0; i <= largeSpace; i++) {
             float bigCount = singleAngle * (i * mMarkerRender.getSmallSpace ());
             float indexAngle = mPortHandler.getStartAngle () + bigCount;//+ mDistance / 2
-
-            float radians = (float) Math.toRadians (indexAngle);
-
-            /** ************************************************************待优化 */
-
-            float y1 = (float) (Math.sin (radians) * (mPortHandler.getRadius () - mMarkerRender.getNumericalReduce ()));//一/+、二/+、三/-、四/-
-            float x1 = (float) (Math.cos (radians) * (mPortHandler.getRadius () - mMarkerRender.getNumericalReduce ()));//一/+、二/-、三/-、四/+
-
-            if (indexAngle % 360 > 135 && indexAngle % 360 < 225) {
-                mPaint.setTextAlign (Paint.Align.LEFT);
-            } else if ((indexAngle % 360 >= 0 && indexAngle % 360 < 45) || (indexAngle % 360 > 315 && indexAngle % 360 <= 360)) {
-                mPaint.setTextAlign (Paint.Align.RIGHT);
-            } else {
-                mPaint.setTextAlign (Paint.Align.CENTER);
-            }
-            /** ************************************************************待优化 */
-
-
             String text = numerical[i];
-            mPaint.getTextBounds (text, 0, text.length (), mBounds);
-            canvas.drawText (text, x1, y1, mPaint);
+            mPaint.getTextBounds(text, 0, text.length(), mBounds);
+
+            canvas.rotate(indexAngle);
+            canvas.translate(mPortHandler.getRadius() - mMarkerRender.getNumericalReduce(), 0);
+            canvas.rotate(-indexAngle);
+
+            canvas.drawText(text, -mBounds.width() / 2, mBounds.height() / 2, mPaint);
+
+            canvas.rotate(indexAngle);
+            canvas.translate(mMarkerRender.getNumericalReduce() - mPortHandler.getRadius(), 0);
+            canvas.rotate(-indexAngle);
         }
         canvas.restore ();
     }

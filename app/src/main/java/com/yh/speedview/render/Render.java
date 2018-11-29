@@ -29,7 +29,7 @@ public abstract class Render {
     /**
      * 长刻度线所对应的读数坐标需要减去的值
      */
-    private int mNumericalReduce = mLongY + 10;
+    private int mNumericalReduce = mLongY + 30;
 
     /**
      *
